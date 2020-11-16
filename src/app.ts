@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import morgan from 'morgan';
 import RouteIndex from './routes/index.routes';
 import RoutePost from './routes/posts.routes';
+import { createDBConnection } from './database';
 
 export class App {
     public app: Application;
@@ -12,8 +13,10 @@ export class App {
       this.middlewares();
     }
 
-    private settings() {
+    private async settings() {
+      require('dotenv').config({ path: __dirname + '/config/.env' });
       this.app.set('port', this.port || 3000);
+      await createDBConnection();
     }
 
     private middlewares() {

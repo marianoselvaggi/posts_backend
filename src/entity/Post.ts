@@ -26,6 +26,8 @@ export class Post {
     @Column()
     author: string;
     
-    @Column()
+    @Column({
+      default: new Date()
+    })
     created_at: Date;
 }
