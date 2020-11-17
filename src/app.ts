@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import RouteIndex from './routes/index.routes';
 import RoutePost from './routes/posts.routes';
 import { createDBConnection } from './database';
+import _logger from './logging';
 
 export class App {
     public app: Application;
@@ -28,7 +29,6 @@ export class App {
     async listen() {
       await createDBConnection();
       await this.app.listen(this.app.get('port'));
-      // eslint-disable-next-line no-console
-      console.log('Server listening port',this.app.get('port'));
+      _logger.log('info', `Server listening port ${this.app.get('port')}`);
     }
 }
