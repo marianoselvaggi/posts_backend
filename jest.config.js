@@ -3,11 +3,13 @@ module.exports = {
   testEnvironment: 'node',
   collectCoverage: false,
   coverageReporters: ['text'],
-  globals: {
-    'ts-jest': {
-      compiler: 'typescript'
-    }
-  },
+  coveragePathIgnorePatterns: [
+    '<rootDir>/src/__tests__/setup.ts',
+    '<rootDir>/node_modules/',
+  ],
+  modulePathIgnorePatterns: [
+    '<rootDir>/src/__tests__/setup.ts',
+  ],
   coverageThreshold: {
     global: {
       branches: 40,

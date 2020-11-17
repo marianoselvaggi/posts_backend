@@ -7,3 +7,4 @@ temp/
 src/config/
 /coverage
 /dist
+/logs.log
