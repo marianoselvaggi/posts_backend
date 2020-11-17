@@ -19,7 +19,7 @@
          "pre-push": "yarn test"
       }
    },
-   "author": "Mariano Selvaggi",
+   "author": "",
    "license": "ISC",
    "devDependencies": {
       "@types/express": "^4.17.9",
