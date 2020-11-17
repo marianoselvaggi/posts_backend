@@ -1,7 +1,6 @@
 import { Response, Request } from 'express';
 import { Post } from '../entity/Post';
 import { getConnection, Repository } from 'typeorm';
-import { connect } from '../database';
 import { iPost } from '../interfaces/post.interface';
 
 let repository: Repository<Post>;

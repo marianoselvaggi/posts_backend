@@ -15,7 +15,6 @@ export async function connect() {
 export function createDBConnection(): Promise<Connection> {
   const SECONDS_TO_RETRY_TO_CONNECT = 5;
   const { TYPEORM_USERNAME, TYPEORM_PASSWORD, TYPEORM_DATABASE, TYPEORM_HOST, TYPEORM_PORT } = process.env;
-  
   if (!TYPEORM_PORT) throw Error('TYPEORM_PORT not defined');
 
   //const typeOrmLogger = new TypeOrmLogger();

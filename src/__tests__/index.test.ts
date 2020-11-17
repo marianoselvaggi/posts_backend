@@ -1,5 +1,5 @@
 const request = require('supertest');
-// import { Express } from 'express-serve-static-core';
+
 import { Application } from 'express';
 import { App } from '../app';
 

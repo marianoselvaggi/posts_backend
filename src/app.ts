@@ -14,9 +14,8 @@ export class App {
     }
 
     private async settings() {
-      require('dotenv').config({ path: __dirname + '/config/.env' });
+      require('dotenv').config({ path: __dirname + `/config/${process.env.NODE_ENV}.env` });
       this.app.set('port', this.port || 3000);
-      await createDBConnection();
     }
 
     private middlewares() {
@@ -27,6 +26,7 @@ export class App {
     }
 
     async listen() {
+      await createDBConnection();
       await this.app.listen(this.app.get('port'));
       // eslint-disable-next-line no-console
       console.log('Server listening port',this.app.get('port'));

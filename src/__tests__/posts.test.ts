@@ -1,49 +1,59 @@
-const request = require('supertest');
-// import { Express } from 'express-serve-static-core';
-import { Application } from 'express';
 import { App } from '../app';
+import { Connection } from 'typeorm';
+import { Application } from 'express';
+import supertest from 'supertest';
+import { Setup } from './setup';
 
 let server: Application;
-let id: number;
+let conn: Connection;
+let postId: number;
 
-beforeAll(async () => {    
-  const app = new App(4000);
+beforeAll(async () => {
+  const app = new App();
+  const set = new Setup();
+  conn = await set.settings();
   server = app.app;
 });
 
-test('Get all posts', async () => {    
-  const res = await request(server).get('/posts');
-  expect(res.status).toEqual(200);
-  expect(res.body.data?.length).toBeGreaterThan(3);
+afterAll(async () => {
+  await conn.close();
 });
 
-test('Create a post', async() => {
-  const res = await request(server).post('/posts').send({
-    title: 'Title test',
-    description: 'Desc test',
-    image_url: 'https://www.google.com'
+test('Create a Post', async () => {
+  const request = await supertest(server).post('/posts').send({
+    'title': 'Post test',
+    'description': 'Test',
+    'post_url': 'https://www.google.com'
   });
-  id = res.body.data;
-  expect(res.status).toEqual(200);
-  expect(res.body).toMatchObject({
-    message: 'Post successfully added!'
+  postId = +request.body.data.id;
+  expect(postId).toBeGreaterThan(0);
+  expect(request.status).toEqual(200);
+  expect(request.body.message).toEqual('Post successfully added!');
+});
+
+test('Get a Post by Id', async () => {
+  const request = await supertest(server).get('/posts/'+postId);
+  expect(request.status).toEqual(200);
+  expect(request.body.data.id).toEqual(postId);
+});
+
+
+test('Get a Posts', async () => {
+  const request = await supertest(server).get('/posts/');
+  expect(request.status).toEqual(200);
+  expect(request.body.data.length).toBeGreaterThan(0);
+});
+
+test('Update a Post', async () => {
+  const request = await supertest(server).put('/posts/'+postId).send({
+    'title': 'Update Post test'
   });
+  expect(request.status).toEqual(200);
+  expect(request.body.message).toEqual('Post successfully updated!');
 });
 
-test('Get a post', async() => {    
-  const res = await request(server).get(`/posts/${id}`);
-  expect(res.status).toEqual(200);
+test('Delete a Post', async () => {
+  const request = await supertest(server).delete('/posts/'+postId);
+  expect(request.status).toEqual(200);
+  expect(request.body.message).toEqual('Post successfully deleted!');
 });
-
-test('Update a post', async() => {
-  const res = await request(server).put(`/posts/${id}`).send({
-    title: 'Title updated'
-  });
-  expect(res.status).toEqual(200);
-  expect(res.body.message).toEqual('Post successfully updated!');
-});
-test('Delete a post', async() => {
-  const res = await request(server).delete(`/posts/${id}`);
-  expect(res.status).toEqual(200);    
-});
-
