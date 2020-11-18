@@ -13,12 +13,6 @@
       "start": "ts-node src/index.ts",
       "typecli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
    },
-   "husky": {
-      "hooks": {
-         "pre-commit": "npm run lint",
-         "pre-push": "npm run test"
-      }
-   },
    "author": "",
    "license": "ISC",
    "devDependencies": {
@@ -54,5 +48,11 @@
       "reflect-metadata": "^0.1.10",
       "typeorm": "0.2.29",
       "winston": "^3.3.3"
+   },
+   "husky": {
+      "hooks": {
+         "pre-commit": "npm run lint",
+         "pre-push": "npm run test"
+      }
    }
 }
