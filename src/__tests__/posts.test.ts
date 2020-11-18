@@ -37,7 +37,6 @@ test('Get a Post by Id', async () => {
   expect(request.body.data.id).toEqual(postId);
 });
 
-
 test('Get a Posts', async () => {
   const request = await supertest(server).get('/posts/');
   expect(request.status).toEqual(200);

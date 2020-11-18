@@ -1,33 +1,30 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { UserBaseEntity } from './UserBaseEntity';
 
 @Entity()
-export class Post {
-    @PrimaryGeneratedColumn()
-    id: number;
-    
-    @Column({
-      type: 'varchar',
-      length: 100
-    })
-    title: string;
-    
-    @Column({
-      type: 'text',
-      nullable: true
-    })
-    description?: string;
-    
-    @Column({
-      type: 'text',
-      nullable: true
-    })
-    post_url?: string;
+export class Post extends UserBaseEntity {
+  constructor() {
+    super();
+  }
 
-    @Column()
-    author: string;
-    
-    @Column({
-      default: new Date()
-    })
-    created_at: Date;
+  @PrimaryGeneratedColumn()
+  id: number;
+  
+  @Column({
+    type: 'varchar',
+    length: 100
+  })
+  title: string;
+  
+  @Column({
+    type: 'text',
+    nullable: true
+  })
+  description?: string;
+  
+  @Column({
+    type: 'text',
+    nullable: true
+  })
+  post_url?: string;
 }
