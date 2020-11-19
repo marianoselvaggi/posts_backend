@@ -1,16 +1,17 @@
 import { createDBConnection  } from '../database';
 import { getConnection } from 'typeorm';
 
-export class Setup {
+export abstract class Setup {
   constructor() {   
   }
 
-  async settings() {
+  static async settings() {
     return await createDBConnection();
   }
 
-  async deleteTestData() {
+  static async deleteTestData() {
     const runner = getConnection().createQueryRunner();
-    await runner.query('Delete * from Post;');
+    await runner.query('Delete from `author`;');
+    await runner.query('Delete from `post`;');
   }
 }

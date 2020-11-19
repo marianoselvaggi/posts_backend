@@ -3,19 +3,23 @@ import { Connection } from 'typeorm';
 import { Application } from 'express';
 import supertest from 'supertest';
 import { Setup } from './setup';
+import { createAuthor } from './mock';
+import { Author } from '../entity/Author';
 
 let server: Application;
 let conn: Connection;
 let postId: number;
+let author: Author;
 
 beforeAll(async () => {
   const app = new App();
-  const set = new Setup();
-  conn = await set.settings();
+  conn = await Setup.settings();
   server = app.app;
+  author = await createAuthor();
 });
 
 afterAll(async () => {
+  await Setup.deleteTestData();
   await conn.close();
 });
 
@@ -23,7 +27,8 @@ test('Create a Post', async () => {
   const request = await supertest(server).post('/posts').send({
     'title': 'Post test',
     'description': 'Test',
-    'post_url': 'https://www.google.com'
+    'post_url': 'https://www.google.com',
+    'authorId': author.id
   });
   postId = +request.body.data.id;
   expect(postId).toBeGreaterThan(0);

@@ -26,9 +26,6 @@ export class UserBaseEntity extends BaseEntity {
     })
     updatedAt?: Date;
 
-    @Column()
-    author: string;  
-
     @BeforeInsert()
     setInsertAssociate() {
       this.createdBy = 'INSERT'

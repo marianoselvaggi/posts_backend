@@ -11,7 +11,7 @@ const initialize = () => {
 
 export async function getPosts(req: Request, res: Response): Promise<Response> {
   if(!repository) initialize();
-  const posts = await repository.find();
+  const posts = await repository.find({relations: ['author']});
   return res.json({
     data: posts
   });  
@@ -20,12 +20,20 @@ export async function getPosts(req: Request, res: Response): Promise<Response> {
 export async function createPost(req: Request, res: Response): Promise<Response> {
   if(!repository) initialize();
 
-  const post: Post = req.body;
-  await repository.save(post);
-  return res.json({
-    message: 'Post successfully added!',
-    data: post
-  });
+  try {
+    const post: Post = req.body;
+    // post.author = new Author();
+    post.author = req.body.authorId;
+    await repository.save(post);
+    return res.json({
+      message: 'Post successfully added!',
+      data: post
+    });
+  } catch(err) {
+    return res.status(500).json({
+      error: err
+    });
+  }
 }
 
 export async function getPost(req: Request, res: Response): Promise<Response> {

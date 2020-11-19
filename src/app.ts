@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import morgan from 'morgan';
 import RouteIndex from './routes/index.routes';
 import RoutePost from './routes/posts.routes';
+import RouteAuthor from './routes/authors.routes';
 import { createDBConnection } from './database';
 import _logger from './logging';
 
@@ -23,6 +24,7 @@ export class App {
       this.app.use(morgan('dev'));
       this.app.use(express.json());
       this.app.use(RouteIndex);
+      this.app.use('/authors', RouteAuthor);
       this.app.use('/posts', RoutePost);
     }
 

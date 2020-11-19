@@ -4,7 +4,7 @@
    "port": 3306,
    "username": "root",
    "password": "m4r14n0.",
-   "database": "Posts",
+   "database": "Posts_test",
    "synchronize": false,
    "migrationsRun": true,
    "logging": false,

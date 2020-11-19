@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert, BeforeUpdate } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, ManyToMany } from 'typeorm';
 import { UserBaseEntity } from './UserBaseEntity';
+import { Author } from './Author';
 
 @Entity()
 export class Post extends UserBaseEntity {
@@ -27,4 +28,7 @@ export class Post extends UserBaseEntity {
     nullable: true
   })
   post_url?: string;
+
+  @ManyToOne(() => Author, author => author.posts)
+  author: Author;
 }
