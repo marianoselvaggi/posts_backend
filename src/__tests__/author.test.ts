@@ -3,15 +3,20 @@ import { Connection } from 'typeorm';
 import { Application } from 'express';
 import supertest from 'supertest';
 import { Setup } from './setup';
+import { createUser } from './mock';
+import { User } from 'src/entity/User';
+import { create } from 'domain';
 
 let server: Application;
 let conn: Connection;
 let authorId: number;
+let user: User;
 
 beforeAll(async () => {
   const app = new App();
   conn = await Setup.settings();
   server = app.app;
+  user = await createUser();
 });
 
 afterAll(async () => {
@@ -22,7 +27,8 @@ afterAll(async () => {
 test('Create an Author', async () => {
   const request = await supertest(server).post('/authors').send({
     'firstName': 'Author Test',
-    'lastName': 'Author Test'
+    'lastName': 'Author Test',
+    'userId': user.id
   });
   authorId = +request.body.data.id;
   expect(authorId).toBeGreaterThan(0);

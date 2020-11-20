@@ -11,7 +11,7 @@ const initialize = () => {
 
 export async function getAuthors(req: Request, res: Response): Promise<Response> {
   if(!repository) initialize();
-  const authors = await repository.find({relations: ['posts']});
+  const authors = await repository.find({relations: ['posts','user']});
   return res.json({
     data: authors
   });
@@ -20,7 +20,7 @@ export async function getAuthors(req: Request, res: Response): Promise<Response>
 export async function getAuthor(req: Request, res: Response): Promise<Response> {
   if(!repository) initialize();
   const id: number = +req.params.id;
-  const author = await repository.findOne(id);
+  const author = await repository.findOne(id,{relations:['posts','user']});
   return res.json({
     data: author
   });
@@ -29,6 +29,7 @@ export async function getAuthor(req: Request, res: Response): Promise<Response> 
 export async function createAuthor(req: Request, res: Response): Promise<Response> {
   if(!repository) initialize();
   const newAuthor: Author = req.body;
+  newAuthor.user = req.body.userId;
   await repository.save(newAuthor);
   return res.json({
     message: 'Author successfully added!',

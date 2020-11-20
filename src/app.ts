@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import RouteIndex from './routes/index.routes';
 import RoutePost from './routes/posts.routes';
 import RouteAuthor from './routes/authors.routes';
+import RouteUser from './routes/users.routes';
 import { createDBConnection } from './database';
 import _logger from './logging';
 
@@ -26,6 +27,7 @@ export class App {
       this.app.use(RouteIndex);
       this.app.use('/authors', RouteAuthor);
       this.app.use('/posts', RoutePost);
+      this.app.use('/users', RouteUser);
     }
 
     async listen() {
