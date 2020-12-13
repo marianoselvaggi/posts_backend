@@ -4,7 +4,9 @@ node_modules/
 build/
 tmp/
 temp/
-src/config/
+src/config/dev.env
+src/config/test.env
 /coverage
 /dist
 /logs.log
+/.mysql-data/db
